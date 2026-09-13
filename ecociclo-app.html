@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="theme-color" content="#08080c"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#07110d">
+<link rel="manifest" href="manifest.json">
+<title>EcoCiclo — Smart Sustainability</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+:root{
+  --bg:#07070b;--surface:#0e0e14;--surface2:#13131b;--surface3:#191923;
+  --border:#252530;--border2:#343443;--text:#f5f4f8;--muted:#8f8d99;
+  --purple:#8b5cf6;--purple2:#a78bfa;--purpleDark:#21153d;
+  --green:#5ee7b7;--gold:#f6c85f;--danger:#ef6b8a;
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif}
+body{font-size:14px}
+button,input{font:inherit}
+button{cursor:pointer}
+.app{min-height:100vh;background:
+  radial-gradient(900px 420px at 70% -10%,#3a21661c,transparent 65%),
+  linear-gradient(180deg,#0a0a0e 0,#07070b 55%,#08070b 100%)}
+
+/* Header */
+header{height:74px;border-bottom:1px solid var(--border);background:#09090dec;backdrop-filter:blur(18px);
+ position:sticky;top:0;z-index:20}
+.top{height:100%;max-width:1280px;margin:auto;padding:0 24px;display:flex;align-items:center;gap:13px}
+.brandmark{width:40px;height:40px;border-radius:11px;display:grid;place-items:center;
+ background:linear-gradient(145deg,#a47cff,#6335c8);box-shadow:0 8px 28px #8b5cf633;font-size:21px}
+.brand{font-size:18px;font-weight:800;letter-spacing:-.5px}.mini{font-size:9px;color:#777582;letter-spacing:1.4px;text-transform:uppercase;font-weight:700}
+.headericons{margin-left:auto;display:flex;gap:8px}.circle{width:38px;height:38px;border:1px solid var(--border2);
+ border-radius:10px;background:#101017;color:#bdb9c6;display:grid;place-items:center}
+
+/* Main dashboard */
+main{max-width:1280px;margin:auto;padding:30px 24px 110px}
+.screen{display:none}.screen.active{display:block;animation:fade .2s ease}
+@keyframes fade{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+h2{font-size:28px;line-height:1.1;letter-spacing:-1px;margin:0 0 5px}
+h3{letter-spacing:-.25px}.muted{color:var(--muted);font-size:12px}
+.card{background:linear-gradient(145deg,#121219,#0d0d13);border:1px solid var(--border);
+ border-radius:15px;padding:17px;box-shadow:0 12px 32px #00000024}
+.card:hover{border-color:#363642}
+.row{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.hero{margin:18px 0;padding:20px;border:1px solid #34274d;border-radius:18px;
+ background:linear-gradient(135deg,#171220,#0f0d14);position:relative;overflow:hidden}
+.hero:after{content:"";position:absolute;width:230px;height:230px;border-radius:50%;
+ right:-100px;top:-130px;border:1px solid #8b5cf620;box-shadow:0 0 80px #8b5cf612}
+.level{font-size:18px;font-weight:800}.xp{font-size:12px;color:var(--muted)}
+.bar{height:6px;background:#25242d;border-radius:20px;margin-top:12px;overflow:hidden}
+.fill{height:100%;background:linear-gradient(90deg,#7041d8,#a77aff);box-shadow:0 0 12px #8b5cf655;transition:.35s}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.stat{background:#0e0e14;border:1px solid var(--border);border-radius:14px;padding:15px}
+.stat b{display:block;font-size:22px;margin-top:6px}.stat .muted{font-size:10px}
+.home-layout{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(280px,.7fr);gap:14px;align-items:start}
+.section-title{display:flex;justify-content:space-between;align-items:end;margin:25px 0 10px}
+.section-title b{font-size:13px}.tag{padding:5px 8px;border:1px solid var(--border2);border-radius:7px;color:#aaa6b2;font-size:9px;text-transform:uppercase;font-weight:700}
+.message{border-left:3px solid var(--purple);background:linear-gradient(135deg,#171122,#0f0e14)}
+#missionList,#remindersList,#achievementList{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.mission{display:flex;gap:13px;align-items:center;margin:0;min-height:112px}
+.ico{width:42px;height:42px;flex:0 0 42px;border-radius:11px;display:grid;place-items:center;background:#1a1722;font-size:23px}
+.mission h3{font-size:13px;margin:0 0 5px}.mission p{margin:0;color:var(--muted);font-size:10px;line-height:1.45}
+.mission button{margin-left:auto;min-width:76px}
+button{border:1px solid #7148b8;border-radius:9px;padding:9px 12px;background:linear-gradient(135deg,#8952e8,#6537ba);
+ color:#fff;font-weight:700;font-size:11px;box-shadow:0 5px 18px #6b3bc522}
+button:hover{filter:brightness(1.08)}button:active{transform:scale(.98)}
+button:disabled,.done{background:#1d1c23!important;border-color:#2e2d36!important;color:#77747e!important;box-shadow:none!important}
+.secondary{background:#121119!important;border-color:var(--border2)!important;color:#c5c1cc!important;box-shadow:none!important}
+input{width:100%;padding:12px;background:#0b0b10;color:#fff;border:1px solid var(--border2);border-radius:9px;outline:0}
+input:focus{border-color:#7f56d9;box-shadow:0 0 0 3px #8b5cf612}
+.pill{display:inline-block;padding:5px 8px;border:1px solid var(--border);border-radius:99px;color:#aaa6b2;font-size:9px;margin:2px}
+
+/* Bottom navigation */
+nav{position:fixed;left:50%;bottom:14px;transform:translateX(-50%);width:min(700px,calc(100% - 28px));
+ display:flex;justify-content:space-around;gap:3px;background:#0c0c12ed;border:1px solid #292932;border-radius:15px;
+ padding:6px;z-index:30;backdrop-filter:blur(18px);box-shadow:0 18px 50px #0008}
+nav button{flex:1;background:transparent!important;border:0!important;box-shadow:none!important;color:#73717c;padding:7px 10px;border-radius:10px}
+nav button.active{color:#c1a5ff;background:#1a1428!important}
+.ni{display:block;font-size:18px;margin-bottom:3px}
+
+/* Modal / mini games */
+.modal{position:fixed;inset:0;background:#030307e8;z-index:50;display:flex;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(10px)}
+.modalbox{width:min(520px,100%);max-height:90vh;overflow:auto;background:#111117;border:1px solid #34303f;
+ border-radius:18px;padding:20px;box-shadow:0 28px 100px #000}
+.close{float:right;background:#18171e!important;border-color:#2e2d36!important;color:#aaa!important}
+.choice{display:grid;gap:8px}.choice button{text-align:left;background:#15141b;border-color:#302e39;box-shadow:none}
+.choice button.good{border-color:#8053cf;background:#211735}
+.achievement{display:flex;align-items:center;gap:13px;margin:0}.achievement .big{font-size:28px}.locked{opacity:.35}
+.toast{position:fixed;left:50%;bottom:92px;transform:translateX(-50%);background:#15131c;border:1px solid #68459a;
+ border-radius:10px;padding:10px 13px;z-index:80;display:none;box-shadow:0 12px 35px #000}
+.progress-ring{width:86px;height:86px;border-radius:50%;display:grid;place-items:center;
+ background:conic-gradient(var(--purple) 0deg,#292731 0deg);position:relative}
+.progress-ring:after{content:"";position:absolute;inset:7px;border-radius:50%;background:#111117}
+.progress-ring span{position:relative;z-index:1;font-weight:800}
+
+/* Desktop */
+@media(min-width:900px){
+  .hero{display:grid;grid-template-columns:1fr 270px;align-items:center;gap:25px}
+  .desktop-actions{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+}
+@media(max-width:899px){
+  main{padding:22px 14px 105px}.top{padding:0 14px}.home-layout{display:block}
+  #missionList,#remindersList,#achievementList{grid-template-columns:1fr}
+}
+@media(max-width:560px){
+  header{height:66px}.brand{font-size:17px}.headericons .circle:first-child{display:none}
+  .hero{padding:15px}.grid{grid-template-columns:1fr 1fr;gap:8px}.stat{padding:12px}.stat b{font-size:18px}
+  h2{font-size:24px}.mission{min-height:100px}.mission button{min-width:68px;padding:8px}
+  nav{bottom:8px;width:calc(100% - 14px)}nav button{padding:6px 3px;font-size:9px}.ni{font-size:17px}
+}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+ <div class="top">
+ <div class="brandmark">♻️</div>
+ <div><div class="mini">SMART SUSTAINABILITY</div><div class="brand">EcoCiclo</div></div>
+ <div class="headericons"><div class="circle">⌕</div><div class="circle">🔔</div><div class="circle">🌱</div></div>
+</div>
+ <div class="hero"><div class="row"><div><div class="mini">SEU NÍVEL</div><div class="level" id="level">🌱 Iniciante</div></div><div style="text-align:right"><div class="mini">XP</div><b id="xp">0</b></div></div><div class="bar"><div class="fill" id="fill"></div></div></div>
+</header>
+<main>
+<section class="screen active" id="home"><div class="home-layout"><div>
+<h2>Painel</h2><p class="muted">Seu impacto começa com uma ação.</p><div class="card" style="border-color:#7040a6;background:linear-gradient(135deg,#1a1230,#0f0b17)">
+<div class="row"><div><div class="mini">CAMPANHA DE 30 DIAS</div><b>Dia <span id="dayNumber">1</span>/30</b><div class="muted" style="margin-top:4px">Dificuldade: <b id="difficulty">INICIANTE</b></div></div><div style="text-align:right"><div class="mini">RENOVA EM</div><b id="countdown">24:00:00</b></div></div>
+</div>
+<div class="section-title"><b>Visão geral</b><span class="tag">Ao vivo neste dispositivo</span></div><div class="grid analytics-strip"><div class="stat">🔥<span class="muted"> Sequência</span><b id="streak">1</b><span class="muted"> dias</span></div><div class="stat">🏆<span class="muted"> Conquistas</span><b id="achCount">0</b></div></div>
+<div class="card"><div class="mini">MENSAGEM DO DIA • MUDA A CADA 24H</div><h3 id="daily" style="margin:7px 0 0"></h3></div>
+<div class="grid">
+ <div class="stat"><span class="muted">⚡ IMPACTO</span><b id="impact">0</b><span class="muted"> pontos</span></div>
+ <div class="stat"><span class="muted">🎯 MISSÕES</span><b id="todayDone">0</b><span class="muted"> hoje</span></div>
+</div>
+<div class="card"><div class="row"><div><b>⚡ Missão em destaque</b><div class="muted" style="margin-top:4px">Complete um desafio e ganhe XP.</div></div><button onclick="show('missions')">Ver missões</button></div></div>
+<div class="card"><b>📊 Seu progresso</b><div class="bar"><div class="fill" id="impactFill"></div></div><p class="muted" style="margin:8px 0 0">Quanto mais você participa, mais sobe de nível.</p></div>
+</div><div><div class="card"><div class="mini">STATUS</div><h3 style="margin:7px 0">● Sistema operacional</h3><p class="muted">Seu progresso está salvo neste dispositivo.</p></div><div class="card"><div class="mini">ATALHOS</div><div style="display:grid;gap:8px"><button onclick="show('missions')">🎯 Abrir missões</button><button onclick="show('reminders')">🔔 Ver lembretes</button><button onclick="show('achievements')">🏆 Ver conquistas</button></div></div></div></div></section>
+
+<section class="screen" id="missions">
+<h2>Missões</h2><p class="muted">18 desafios. Novas missões todos os dias.</p>
+<div id="missionList"></div>
+</section>
+
+<section class="screen" id="reminders">
+<h2>Central</h2><p class="muted">Lembretes e dicas para manter seus hábitos.</p>
+<div id="remindersList"></div>
+<div class="card"><b>🔔 Rotina EcoCiclo</b><p class="muted">Consulte os lembretes quando quiser e complete uma missão diária.</p></div>
+</section>
+
+<section class="screen" id="achievements">
+<h2>Conquistas</h2><p class="muted">Colecione marcos permanentes.</p><div id="achievementList"></div>
+</section>
+
+<section class="screen" id="profile">
+<h2>Perfil</h2>
+<div class="card" style="text-align:center"><div id="bigAvatar" style="font-size:65px">🌱</div><h3 id="profileName">EcoCiclista</h3><div class="level" id="profileLevel"></div><p class="muted"><span id="profileXp">0</span> XP • <span id="profileCompleted">0</span> missões</p></div>
+<div class="card"><b>Personalização</b><input id="nameInput" placeholder="Nome ou apelido"><button onclick="saveName()">Salvar</button></div>
+<div class="card"><b>Estatísticas</b><div class="stat"><span>XP acumulado</span><b id="sXp">0</b></div><div class="stat"><span>Missões concluídas hoje</span><b id="sDone">0</b></div><div class="stat"><span>Sequência atual</span><b id="sStreak">1 dias</b></div></div>
+</section>
+</main>
+<nav id="nav">
+<button data-screen="home" class="active"><span class="ni">⌂</span>Início</button>
+<button data-screen="missions"><span class="ni">🎯</span>Missões</button>
+<button data-screen="reminders"><span class="ni">🔔</span>Central</button>
+<button data-screen="achievements"><span class="ni">🏆</span>Conquistas</button>
+<button data-screen="profile"><span class="ni">●</span>Perfil</button>
+</nav>
+<div class="toast" id="toast"></div>
+</div>
+<script>
+/* ECOCICLO — ciclo diário de 24h + campanha de 30 dias */
+const baseMissions=[
+["♻️","Central de Reciclagem","Separe materiais corretamente.",50,"sort"],
+["🚮","Caça ao Lixo","Recolha todos os resíduos.",45,"catch"],
+["💧","Fiscal da Água","Encontre os pontos de desperdício.",40,"water"],
+["💡","Operação Energia","Desligue os pontos de consumo.",40,"lights"],
+["🔄","Desafio Reutiliza","Escolha objetos que podem ser reaproveitados.",55,"reuse"],
+["🌱","Escolha Sustentável","Tome decisões melhores para o ambiente.",45,"choices"],
+["📚","EcoQuiz","Teste seus conhecimentos.",35,"quiz"],
+["🏫","Escola Sustentável","Organize os materiais corretamente.",70,"sort"],
+["🌳","Guardiões das Árvores","Proteja as áreas verdes.",55,"trees"],
+["🌊","Proteja os Rios","Retire resíduos sem tocar nos animais.",60,"river"],
+["⚡","Caça ao Desperdício","Encontre hábitos de desperdício.",50,"waste"],
+["🛍️","Compra Consciente","Monte uma cesta sustentável.",50,"shopping"],
+["🚲","Mobilidade Verde","Escolha formas melhores de deslocamento.",45,"mobility"],
+["🥕","Prato Sustentável","Reduza o desperdício de alimentos.",45,"food"],
+["📦","Embalagem Inteligente","Escolha alternativas de menor impacto.",45,"package"],
+["🧹","Bairro Limpo","Limpe uma praça virtual.",65,"catch"],
+["🌎","Missão Planeta","Complete uma sequência de decisões.",100,"planet"],
+["🔎","Detetive Ambiental","Encontre problemas ambientais.",60,"detective"]
+];
+
+const advanced=[
+["🧠","Código Verde","Complete 5 decisões ambientais seguidas.",90,"planet"],
+["🌊","Operação Rio Vivo","Limpe uma área contaminada.",100,"river"],
+["⚡","Rede Eficiente","Identifique 10 desperdícios.",95,"waste"],
+["♻️","Triagem Profissional","Separe 10 materiais corretamente.",110,"sort"],
+["🌳","Floresta em Alerta","Proteja 8 ações ambientais.",105,"trees"],
+["🏙️","Cidade Sustentável","Resolva 8 situações urbanas.",120,"choices"],
+["🔬","Laboratório Eco","Acerte 7 perguntas ambientais.",115,"quiz"],
+["🚮","Operação Bairro","Limpe 15 resíduos.",125,"catch"],
+["💧","Desafio Hídrico","Resolva 8 pontos de desperdício.",110,"water"],
+["📦","Logística Verde","Escolha 8 embalagens melhores.",105,"package"],
+["🌍","Impacto Máximo","Complete 10 decisões sem erro.",150,"planet"],
+["🔎","Mega Detetive","Encontre 10 problemas ambientais.",135,"detective"]
+];
+
+const messages=[
+"Um ambiente melhor começa com uma atitude.",
+"Seu pequeno gesto pode inspirar outras pessoas.",
+"Reciclar é transformar aquilo que seria descartado.",
+"Hoje é um bom dia para diminuir seu impacto.",
+"Consumo consciente começa antes da compra.",
+"Cada recurso economizado conta.",
+"Uma comunidade sustentável começa com pessoas participando.",
+"Aprender também é uma forma de cuidar do planeta.",
+"Pequenas ações repetidas viram grandes mudanças.",
+"Seu progresso de hoje prepara o desafio de amanhã."
+];
+
+const reminders=[
+"♻️ Separe seus recicláveis.",
+"🚮 Nunca jogue resíduos no chão.",
+"💧 Confira torneiras e pontos de água.",
+"💡 Desligue luzes e aparelhos sem uso.",
+"🔄 Pense em reutilizar antes de descartar.",
+"🌳 Preserve árvores e áreas verdes.",
+"📦 Evite embalagens desnecessárias.",
+"🛍️ Planeje compras e escolha produtos duráveis.",
+"🚲 Considere mobilidade sustentável quando for viável.",
+"🌎 Compartilhe uma atitude positiva."
+];
+
+let data=JSON.parse(localStorage.getItem("ecociclo30")||'{"xp":0,"done":[],"name":"","streak":0,"cycleStart":0,"day":1,"totalCompleted":0}');
+const now=Date.now();
+const DAY=24*60*60*1000;
+
+if(!data.cycleStart)data.cycleStart=now;
+let elapsed=now-data.cycleStart;
+if(elapsed>=DAY){
+  const passed=Math.floor(elapsed/DAY);
+  data.day=Math.min(30,(data.day||1)+passed);
+  data.done=[];
+  data.cycleStart=data.cycleStart+passed*DAY;
+  data.streak=(data.streak||0)+passed;
+  localStorage.setItem("ecociclo30",JSON.stringify(data));
+}
+
+function save(){localStorage.setItem("ecociclo30",JSON.stringify(data))}
+function difficulty(){
+  const d=data.day||1;
+  if(d>=25)return"EXTREMO";
+  if(d>=16)return"DIFÍCIL";
+  if(d>=8)return"AVANÇADO";
+  return"INICIANTE";
+}
+function dayMissions(){
+  const d=data.day||1;
+  let pool=baseMissions.map(x=>[...x]);
+  if(d>=4)pool=pool.concat(advanced.slice(0,4));
+  if(d>=8)pool=pool.concat(advanced.slice(4,8));
+  if(d>=16)pool=pool.concat(advanced.slice(8));
+  // Deterministic daily shuffle: changes after each 24h cycle.
+  let seed=d*7919;
+  pool.sort((a,b)=>{
+    seed=(seed*9301+49297)%233280;let aa=seed;
+    seed=(seed*9301+49297)%233280;let bb=seed;
+    return aa-bb;
+  });
+  const count=d<4?6:d<8?8:d<16?10:d<25?12:14;
+  const selected=pool.slice(0,count);
+  const multiplier=d>=25?1.8:d>=16?1.5:d>=8?1.25:1;
+  return selected.map((m,i)=>[m[0],m[1],m[2],Math.round(m[3]*multiplier),m[4]]);
+}
+let missions=dayMissions();
+
+function level(x){return x>=6000?"💎 Lenda EcoCiclo":x>=4000?"🌎 Mestre do Planeta":x>=2500?"🌳 Guardião":x>=1500?"🌲 Defensor":x>=700?"🌱 Protetor":x>=350?"♻️ Reciclador":"🌱 Iniciante"}
+function progress(){
+ const remain=Math.max(0,DAY-(Date.now()-data.cycleStart));
+ const h=Math.floor(remain/3600000),m=Math.floor((remain%3600000)/60000),s=Math.floor((remain%60000)/1000);
+ return `${String(h).padStart(2,"0")}:${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`;
+}
+function update(){
+ missions=dayMissions();
+ document.getElementById("xp").textContent=data.xp;
+ document.getElementById("level").textContent=level(data.xp);
+ document.getElementById("fill").style.width=Math.min(100,(data.xp%700)/7)+"%";
+ document.getElementById("todayDone").textContent=data.done.length;
+ document.getElementById("streak").textContent=data.streak||1;
+ document.getElementById("sXp").textContent=data.xp;
+ document.getElementById("sDone").textContent=data.done.length;
+ document.getElementById("sStreak").textContent=(data.streak||1)+" dias";
+ document.getElementById("profileXp").textContent=data.xp;
+ document.getElementById("profileCompleted").textContent=data.totalCompleted||0;
+ document.getElementById("profileLevel").textContent=level(data.xp);
+ document.getElementById("profileName").textContent=data.name||"EcoCiclista";
+ document.getElementById("nameInput").value=data.name||"";
+ document.getElementById("daily").textContent=messages[(data.day-1)%messages.length];
+ document.getElementById("impact").textContent=data.xp;
+ document.getElementById("dayNumber").textContent=data.day;
+ document.getElementById("difficulty").textContent=difficulty();
+ document.getElementById("countdown").textContent=progress();
+ document.getElementById("remindersList").innerHTML=reminders.map((x,i)=>`<div class="card"><b>${x}</b><div class="muted" style="margin-top:5px">Lembrete ${i+1}</div></div>`).join("");
+ renderMissions();renderAchievements();
+}
+function show(id){document.querySelectorAll(".screen").forEach(s=>s.classList.toggle("active",s.id===id));document.querySelectorAll("#nav button").forEach(b=>b.classList.toggle("active",b.dataset.screen===id));scrollTo(0,0)}
+document.querySelectorAll("#nav button").forEach(b=>b.onclick=()=>show(b.dataset.screen));
+
+function renderMissions(){
+ document.getElementById("missionList").innerHTML=missions.map((m,i)=>{
+  let done=data.done.includes(i);
+  return `<div class="card mission"><div class="ico">${m[0]}</div><div style="flex:1"><h3>${m[1]}</h3><p>${m[2]}</p><p style="margin-top:6px"><b>+${m[3]} XP</b></p></div><button ${done?"disabled":""} onclick="openGame(${i})">${done?"✓ Feita":"Iniciar"}</button></div>`
+ }).join("");
+}
+function renderAchievements(){
+ const a=[["🏆","Primeira missão",data.totalCompleted>=1],["🔥","7 dias",data.streak>=7],["⚡","15 missões",data.totalCompleted>=15],["💎","30 missões",data.totalCompleted>=30],["🌎","1.000 XP",data.xp>=1000],["🌳","2.500 XP",data.xp>=2500],["🚀","Dia 10",data.day>=10],["🏅","Dia 20",data.day>=20],["👑","Dia 30",data.day>=30]];
+ document.getElementById("achCount").textContent=a.filter(x=>x[2]).length;
+ document.getElementById("achievementList").innerHTML=a.map(x=>`<div class="card achievement ${x[2]?"":"locked"}"><div class="big">${x[0]}</div><div><b>${x[1]}</b><div class="muted">${x[2]?"Conquistada":"Bloqueada"}</div></div></div>`).join("");
+}
+function toast(t){const e=document.getElementById("toast");e.textContent=t;e.style.display="block";setTimeout(()=>e.style.display="none",1800)}
+function finish(i,msg){
+ data.done.push(i);data.totalCompleted=(data.totalCompleted||0)+1;data.xp+=missions[i][3];save();closeGame();update();toast("🎉 "+msg+"  +"+missions[i][3]+" XP");
+}
+function openGame(i){
+ if(data.done.includes(i))return;
+ const m=missions[i],modal=document.createElement("div");modal.className="modal";modal.id="game";
+ modal.innerHTML=`<div class="modalbox"><button class="close" onclick="closeGame()">✕</button><div style="font-size:34px">${m[0]}</div><div class="mini">${difficulty()} • DIA ${data.day}/30</div><h2>${m[1]}</h2><p class="muted">${m[2]}</p><div id="gameArea"></div></div>`;
+ document.body.appendChild(modal);
+ const f={sort:gSort,catch:gCatch,water:gWater,lights:gLights,reuse:gReuse,choices:gChoices,quiz:gQuiz,trees:gTrees,river:gRiver,waste:gWaste,shopping:gShopping,mobility:gMobility,food:gFood,package:gPackage,planet:gPlanet,detective:gDetective}[m[4]]||gChoices;
+ f(document.getElementById("gameArea"),i);
+}
+function closeGame(){document.getElementById("game")?.remove()}
+function B(t,fn){let b=document.createElement("button");b.textContent=t;b.onclick=fn;return b}
+function choiceGame(a,i,title,arr,total){
+ a.innerHTML=`<p>${title}</p><div class="choice" id="cg"></div>`;let g=document.getElementById("cg"),n=0;
+ arr.forEach(x=>{let b=B(x[0],()=>{if(x[1]){b.classList.add("good");b.disabled=true;n++;if(n===total)finish(i,"Desafio concluído!")}else toast("Escolha incorreta. Tente outra.")});g.appendChild(b)})
+}
+function gSort(a,i){let count=data.day>=25?10:data.day>=16?8:data.day>=8?7:5;let cats=["Plástico","Papel","Metal","Vidro"];let icons=["🥤","📰","🥫","🍾","📦","🧴","🥫","🫙","📄","🧃"];let items=Array.from({length:count},(_,n)=>[icons[n%icons.length],cats[n%cats.length]]),n=0;a.innerHTML=`<p>Separe ${count} materiais.</p><div id="cg"></div>`;let g=document.getElementById("cg");function next(){if(n===items.length)return finish(i,"Triagem perfeita!");let x=items[n];g.innerHTML=`<h3>${x[0]} — qual categoria?</h3>`;cats.forEach(c=>g.appendChild(B(c,()=>c===x[1]?(n++,next()):toast("Categoria incorreta."))))}next()}
+function gCatch(a,i){let count=data.day>=25?15:data.day>=16?12:data.day>=8?10:8;a.innerHTML=`<p>Recolha ${count} resíduos.</p><div id="arena" style="height:300px;background:#20192c;border-radius:18px;position:relative"></div>`;let ar=document.getElementById("arena"),n=0;for(let j=0;j<count;j++){let b=B(["🧴","📄","🥫","🛍️","📦"][j%5],()=>{b.remove();if(++n===count)finish(i,"Área limpa!")});b.style.cssText=`position:absolute;left:${5+Math.random()*82}%;top:${5+Math.random()*82}%;font-size:22px;background:#fff;color:#111`;ar.appendChild(b)}}
+function gWater(a,i){let n=data.day>=25?8:data.day>=16?7:data.day>=8?6:4;choiceGame(a,i,`Feche ${n} pontos de desperdício.`,Array.from({length:n},(_,x)=>["🚰 💧 Desperdício "+(x+1),1]),n)}
+function gLights(a,i){let n=data.day>=25?12:data.day>=16?10:data.day>=8?9:8;choiceGame(a,i,`Desligue ${n} pontos de energia.`,Array.from({length:n},()=>["💡 Ligada",1]),n)}
+function gReuse(a,i){choiceGame(a,i,"Escolha os itens reutilizáveis.",[["🫙 Pote",1],["📦 Caixa",1],["🧴 Garrafa",1],["👕 Roupa",1],["🪴 Recipiente",1],["🗑️ Resíduo perigoso",0],["🔥 Material perigoso",0],["🍌 Resíduo orgânico",0]],data.day>=16?5:4)}
+function gChoices(a,i){choiceGame(a,i,"Escolha atitudes sustentáveis.",[["♻️ Separar recicláveis",1],["💧 Economizar água",1],["💡 Economizar energia",1],["🚲 Mobilidade sustentável",1],["🌳 Preservar áreas verdes",1],["🚮 Jogar lixo no chão",0],["💦 Desperdiçar água",0],["🔥 Destruir vegetação",0]],data.day>=16?5:4)}
+function gQuiz(a,i){let total=data.day>=25?7:data.day>=16?6:data.day>=8?5:3;let qs=[["O que ajuda a reciclagem?","Separar materiais"],["Como economizar água?","Fechar a torneira"],["O que fazer antes de descartar?","Pensar em reutilizar"],["Qual atitude economiza energia?","Desligar o que não usa"],["Qual destino é melhor para recicláveis?","Coleta seletiva"],["O que reduz desperdício?","Planejar compras"],["O que protege áreas verdes?","Preservar árvores"]];let n=0;a.innerHTML="<div id='cg'></div>";let g=document.getElementById("cg");function next(){if(n===total)return finish(i,"Quiz concluído!");let q=qs[(n+data.day)%qs.length];g.innerHTML=`<h3>${n+1}/${total} — ${q[0]}</h3>`;[q[1],"Não fazer nada","Desperdiçar recursos"].forEach(x=>g.appendChild(B(x,()=>x===q[1]?(n++,next()):toast("Resposta errada."))))}next()}
+function gTrees(a,i){choiceGame(a,i,"Escolha ações que protegem árvores.",[["🌳 Plantar",1],["💧 Cuidar de mudas",1],["🪴 Preservar áreas verdes",1],["📚 Educar",1],["🌱 Recuperar áreas",1],["🔥 Destruir vegetação",0],["🗑️ Jogar lixo na mata",0]],data.day>=16?5:4)}
+function gRiver(a,i){choiceGame(a,i,"Retire resíduos sem tocar nos animais.",[["🧴 Garrafa",1],["📦 Caixa",1],["🥫 Lata",1],["🛍️ Sacola",1],["📄 Papel",1],["🐟 Peixe",0],["🐢 Tartaruga",0],["🐠 Peixe",0]],data.day>=16?5:4)}
+function gWaste(a,i){choiceGame(a,i,"Encontre situações de desperdício.",[["💡 Luz sem uso",1],["🚰 Torneira aberta",1],["❄️ Porta aberta",1],["🔌 Equipamento ligado",1],["🚿 Banho excessivo",1],["🌑 Luz desligada",0],["🚰 Torneira fechada",0]],data.day>=16?5:4)}
+function gShopping(a,i){gChoices(a,i)}
+function gMobility(a,i){gChoices(a,i)}
+function gFood(a,i){gChoices(a,i)}
+function gPackage(a,i){gChoices(a,i)}
+function gPlanet(a,i){let total=data.day>=25?10:data.day>=16?8:data.day>=8?6:4,n=0;let arr=[["Resíduos","Separar corretamente"],["Água","Fechar a torneira"],["Energia","Desligar o que não usa"],["Destino","Coleta seletiva"],["Compras","Planejar compras"],["Áreas verdes","Preservar árvores"],["Mobilidade","Escolher transporte sustentável"],["Reutilização","Reutilizar"],["Consumo","Evitar desperdício"],["Comunidade","Compartilhar boas práticas"]];a.innerHTML="<div id='cg'></div>";let g=document.getElementById("cg");function next(){if(n===total)return finish(i,"Missão Planeta concluída!");let q=arr[(n+data.day)%arr.length];g.innerHTML=`<h3>${n+1}/${total} • ${q[0]}</h3>`;[q[1],"Desperdiçar recursos"].forEach(x=>g.appendChild(B(x,()=>x===q[1]?(n++,next()):toast("Decisão incorreta."))))}next()}
+function gDetective(a,i){let total=data.day>=25?10:data.day>=16?8:data.day>=8?7:6;let good=["🚮 Lixo no chão","💧 Torneira aberta","💡 Luz sem uso","🛍️ Descarte incorreto","🔥 Queimada","🌊 Resíduo no rio","🔌 Equipamento sem uso","📦 Excesso de embalagem","🗑️ Descarte incorreto","🌫️ Poluição"];let safe=["♻️ Coleta correta","🌳 Área preservada","🚰 Torneira fechada"];choiceGame(a,i,`Encontre ${total} problemas ambientais.`,good.map(x=>[x,1]).concat(safe.map(x=>[x,0])),total)}
+setInterval(()=>{
+ const before=data.day;
+ if(Date.now()-data.cycleStart>=DAY){
+   const passed=Math.floor((Date.now()-data.cycleStart)/DAY);
+   data.day=Math.min(30,data.day+passed);data.done=[];data.cycleStart+=passed*DAY;data.streak=(data.streak||0)+passed;save();
+   toast(data.day>=30?"👑 Dia 30 alcançado!":"🌅 Novo ciclo! Novas missões disponíveis.");
+ }
+ update();
+},1000);
+update();
+</script>
+</body></html>
