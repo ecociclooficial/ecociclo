@@ -1,0 +1,10 @@
+{
+  "name": "EcoCiclo — Smart Sustainability",
+  "short_name": "EcoCiclo",
+  "description": "Plataforma de missões e educação ambiental.",
+  "start_url": "./ecociclo-app.html",
+  "display": "standalone",
+  "background_color": "#08080c",
+  "theme_color": "#8b5cf6",
+  "orientation": "any"
+}
